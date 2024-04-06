@@ -412,8 +412,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizontalInputAxis: Horizontal
   _verticalInputAxis: Vertical
+  _desiredmotion: 1
   _speed: 2
-  _desiredmotion: 0
+  _maxSpeed: 4
+  _acceleration: 1
 --- !u!114 &1239796850
 MonoBehaviour:
   m_ObjectHideFlags: 0

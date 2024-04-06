@@ -4,7 +4,7 @@ namespace TCM.Motion
     public enum EMotion
     {
         URM,
-        UARM,
+        VELOCITY_BASED_MOVEMENT,
         LERP,
         PHYSICS
     }
