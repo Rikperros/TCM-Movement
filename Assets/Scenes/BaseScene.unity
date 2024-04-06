@@ -307,7 +307,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800612508}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e9f2947f2bf1834ab4ef6e892f5d91f, type: 3}
   m_Name: 
@@ -324,6 +324,7 @@ GameObject:
   - component: {fileID: 1239796847}
   - component: {fileID: 1239796849}
   - component: {fileID: 1239796850}
+  - component: {fileID: 1239796851}
   m_Layer: 0
   m_Name: Mover
   m_TagString: Untagged
@@ -412,13 +413,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizontalInputAxis: Horizontal
   _verticalInputAxis: Vertical
-  _desiredmotion: 2
+  _desiredmotion: 3
   _speed: 2
   _maxSpeed: 4
   _acceleration: 1
   _target: {fileID: 800612510}
   _lerpAlpha: 0.2
   _targetTag: Target
+  _rigidbody2D: {fileID: 1239796851}
+  _forceMagnitude: 2
+  _forceMode: 0
 --- !u!114 &1239796850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +435,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4bda6f4879d30144850965096e65390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &1239796851
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239796846}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

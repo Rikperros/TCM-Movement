@@ -1,8 +1,9 @@
 using UnityEngine;
 //Here we include our namespace for motions
 using TCM.Motion;
-using static UnityEngine.GraphicsBuffer;
 
+//This drawer automatically adds a component of a certain type if it doesn't exist in the gameObject
+[RequireComponent(typeof(Rigidbody2D))]
 //Since it inherits from MonoBehaviour this class will act as a component
 public class Mover : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class Mover : MonoBehaviour
     public float _lerpAlpha = 0.2f;
     public string _targetTag = "Target";
 
+    [Header("Physics Based Movement")]
+    public Rigidbody2D _rigidbody2D;
+    public float _forceMagnitude;
+    public ForceMode2D _forceMode = ForceMode2D.Force;
+
     //Here we will store our inputed direction
     private Vector3 _desiredDirection = Vector3.zero;
     
@@ -39,11 +45,24 @@ public class Mover : MonoBehaviour
     {
         if(_target == null)
             _target = GameObject.FindGameObjectWithTag(_targetTag).transform;
+        //Here we are looking for our own component, so we can access it directly using the gameObject field
+        if(_rigidbody2D == null)
+            _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
     }
     void Update()
     {
         GetDesiredDirectionFromInput();
         PerformSelectedMovement();
+    }
+
+    private void FixedUpdate()
+    {
+        //Any rigidbody related movement is relying on the Physics systems, therefore we need to update it 
+        //on the fixed update. Otherwise our movement will fight the physics system and we will have artifacts
+        if(_desiredmotion == EMotion.PHYSICS) 
+        {
+            _rigidbody2D.AddForce(_desiredDirection * _forceMagnitude, _forceMode);
+        }
     }
 
     private void GetDesiredDirectionFromInput()
@@ -91,6 +110,8 @@ public class Mover : MonoBehaviour
 
     void PerformLerpMovement()
     {
+        //in this case the lerp acts as a logaritmic curve since every time the distance to interpolate is smaller
+        //if we used a fixed start point it will act as a linear transition
         transform.position = Vector3.Lerp(transform.position, _target.position, _lerpAlpha * Time.deltaTime);
     }
 }
