@@ -1,6 +1,7 @@
 using UnityEngine;
 //Here we include our namespace for motions
 using TCM.Motion;
+using static UnityEngine.GraphicsBuffer;
 
 //Since it inherits from MonoBehaviour this class will act as a component
 public class Mover : MonoBehaviour
@@ -23,11 +24,22 @@ public class Mover : MonoBehaviour
     public float _maxSpeed = 10f;
     public float _acceleration = 2f;
 
+    [Header("Lerp Movement")]
+    public Transform _target;
+    [Range(0.0f, 1.0f)]
+    public float _lerpAlpha = 0.2f;
+    public string _targetTag = "Target";
+
     //Here we will store our inputed direction
     private Vector3 _desiredDirection = Vector3.zero;
     
     private VelocityBasedMovement _VelocityBasedMovement;
 
+    private void Start()
+    {
+        if(_target == null)
+            _target = GameObject.FindGameObjectWithTag(_targetTag).transform;
+    }
     void Update()
     {
         GetDesiredDirectionFromInput();
@@ -53,6 +65,9 @@ public class Mover : MonoBehaviour
             case EMotion.VELOCITY_BASED_MOVEMENT:
                 PerformVelocityBasedMovement();
                 break;
+            case EMotion.LERP:
+                PerformLerpMovement();
+                break;
             default:
                 return;
         }
@@ -72,5 +87,10 @@ public class Mover : MonoBehaviour
         }
 
         transform.position = _VelocityBasedMovement.PerformMovement(transform.position, _desiredDirection);
+    }
+
+    void PerformLerpMovement()
+    {
+        transform.position = Vector3.Lerp(transform.position, _target.position, _lerpAlpha * Time.deltaTime);
     }
 }
