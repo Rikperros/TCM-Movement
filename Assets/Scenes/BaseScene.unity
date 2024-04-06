@@ -410,8 +410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57c5f5ca855e214589a2cefbea3a223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _horizontalInputAxis: Horizontal
+  _verticalInputAxis: Vertical
   _speed: 2
-  _target: {fileID: 0}
   _desiredmotion: 0
 --- !u!114 &1239796850
 MonoBehaviour:

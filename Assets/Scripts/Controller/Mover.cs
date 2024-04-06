@@ -5,23 +5,32 @@ using TCM.Motion;
 //Since it inherits from MonoBehaviour this class will act as a component
 public class Mover : MonoBehaviour
 {
+    //We can call directly those axis without exposing the name but that is hardcoding
+    //Pretty people don't hardcode things!!
+    public string _horizontalInputAxis = "Horizontal";
+    public string _verticalInputAxis = "Vertical";
+
     //Making a var public allows us to modify it from Unity's inspector
     public float _speed = 0;
-    //We can also expose component types. In Unity we can drag an drop an object in there to set the var
-    public Transform _target;
     //Here we expose a custom type. In Order to do that we need to mark EMotion type as [System.Serializable]
     public EMotion _desiredmotion = EMotion.URM;
 
-    void Start()
-    {
-        //This will look for an object with a particular tag in case we forget to set the target
-        if(_target == null)
-            _target = GameObject.FindGameObjectWithTag("Target").transform;
-    }
+    //Here we will store our inputed direction
+    private Vector3 _desiredDirection = Vector3.zero;
 
     void Update()
     {
+        GetDesiredDirectionFromInput();
         PerformSelectedMovement();
+    }
+
+    private void GetDesiredDirectionFromInput()
+    {
+        //Read inputs and store them inside our vector
+        _desiredDirection.x = Input.GetAxis(_horizontalInputAxis);
+        _desiredDirection.y = Input.GetAxis(_verticalInputAxis);
+        //Always remember to normalize it, otherwise diagonals will move faster!
+        _desiredDirection.Normalize();
     }
 
     void PerformSelectedMovement()
@@ -38,7 +47,6 @@ public class Mover : MonoBehaviour
 
     void PerformURM()
     {
-        Vector3 l_direction = _target.position - transform.position;
-        transform.position = URM.PerformFramerateIndependantMovement(transform.position, l_direction.normalized, _speed);
+        transform.position = URM.PerformFramerateIndependantMovement(transform.position, _desiredDirection, _speed);
     }
 }
